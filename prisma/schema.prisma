@@ -14,11 +14,23 @@ datasource db {
 }
 
 model Movie{
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  moviename     String
-  createdAt     DateTime @default(now())
-  description   String?
-  year          Int
-  score         Int
-  poster        String?
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  moviename       String
+  movieslug       String   @unique
+  createdAt       DateTime @default(now())
+  description     String?
+  year            Int
+  score           Float
+  poster          String?
+  createdUserId   String
+  rating          Rating[] @relation("MovieRatings")
+}
+
+model Rating{
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    movieId       String @db.ObjectId
+    movie         Movie  @relation("MovieRatings",fields: [movieId], references: [id])
+    rating        Float 
+    userId        String
+    createdAt       DateTime @default(now())
 }

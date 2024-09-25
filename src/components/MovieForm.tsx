@@ -18,9 +18,12 @@ import formSchema from "@/lib/MovieFormSchema";
 
 import { addMovie } from "@/lib/action";
 import { useToast } from "@/hooks/use-toast";
+import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 export function MovieForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,9 +43,41 @@ export function MovieForm() {
     }
   };
 
+  const uploadFile = async (file: File) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "moviebuzz");
+    try {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dux8azcnu/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const responseData = await res.json();
+
+      const { url } = responseData;
+      console.log(`Link:${url}`);
+      return url;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await addMovie(values);
-    if (res.status) {
+    let url;
+    if (values.poster) {
+      console.log(values.poster);
+      url = await uploadFile(values.poster);
+    }
+
+    const res = await addMovie({ ...values, poster: url });
+
+    console.log("rerouted");
+    if (res.success) {
+      router.push(`/movie/${res?.movieslug}`);
       toast({
         variant: "success",
         title: "Success!",
@@ -55,7 +90,6 @@ export function MovieForm() {
         description: "Error creating movie.",
       });
     }
-    console.log(values);
   }
 
   return (
