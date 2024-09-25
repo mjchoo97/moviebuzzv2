@@ -10,7 +10,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between py-4 items-center">
+    <div className="flex justify-between py-4 items-center bg-[#191C20] lg:bg-[var(--background)]">
       <div>
         <Link href="/">MovieBuzz</Link>{" "}
       </div>
