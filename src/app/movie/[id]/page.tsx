@@ -1,10 +1,18 @@
 "use client";
-import MovieAlertDialog from "@/components/MovieAlertDialog";
+
 import { getMovie } from "@/lib/action";
-import prisma from "@/lib/client";
-import { auth } from "@clerk/nextjs/server";
+
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+
+type Movie = {
+  moviename: string;
+  year: number;
+  description: string | null;
+  poster: string | null;
+  userRating: number | null;
+  totalRating: number | null;
+};
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -12,7 +20,14 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
   // const movie = getMovie(id);
   // console.log(movie);
 
-  const [movie, setMovie] = useState<any>(null);
+  const [movie, setMovie] = useState<Movie>({
+    moviename: "",
+    description: "",
+    year: 0,
+    poster: null,
+    userRating: null,
+    totalRating: null,
+  });
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -35,7 +50,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
           <div className="relative w-full h-full ">
             {movie.poster ? (
               <Image
-                src="https://res.cloudinary.com/dux8azcnu/image/upload/v1691509630/moviebuzz/ki1afqori7qqwjz7uyyl.jpg"
+                src={movie.poster}
                 alt="movie"
                 layout="fill" // Use layout instead of fill
                 objectFit="contain" // Ensures the image scales while maintaining its aspect ratio
@@ -87,7 +102,6 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                   <MovieAlertDialog />
                 </div>
               </div> */}
-              <MovieAlertDialog score={movie.userRating} />
             </div>
           </div>
         </div>

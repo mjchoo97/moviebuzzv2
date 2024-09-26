@@ -93,6 +93,10 @@ export const getMovie = async (movieslug: string) => {
       },
     });
 
+    if (!moviedetail) {
+      throw new Error("Unable to find current movie in database.");
+    }
+
     console.log(moviedetail);
 
     const userRating = await prisma.rating.findFirst({
@@ -102,6 +106,9 @@ export const getMovie = async (movieslug: string) => {
     });
 
     console.log(userRating);
+    if (!userRating) {
+      throw new Error("Unable to find current movie in database.");
+    }
 
     const totalRating = await prisma.rating.aggregate({
       where: {
@@ -113,12 +120,22 @@ export const getMovie = async (movieslug: string) => {
     });
 
     return {
-      ...moviedetail,
+      moviename: moviedetail.moviename,
+      description: moviedetail.description,
+      year: moviedetail.year,
+      poster: moviedetail.poster,
       totalRating: totalRating._avg.rating,
-      userRating: userRating?.rating,
+      userRating: userRating.rating,
     };
   } catch (err) {
     console.log(err);
-    return { movie: null, totalRating: 0 };
+    return {
+      moviename: "",
+      description: "",
+      year: 0,
+      poster: "",
+      totalRating: 0,
+      userRating: 0,
+    };
   }
 };
