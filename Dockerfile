@@ -52,7 +52,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 
 # Copy .env file to the Docker image
-COPY .env.local /app/.env.local
+# COPY .env.local /app/.env.local
 
 # Set the correct permission for prerender cache
 RUN mkdir .next

@@ -1,4 +1,5 @@
 "use client";
+import MovieAlertDialog from "@/components/MovieAlertDialog";
 import { getMovie } from "@/lib/action";
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
@@ -76,14 +77,17 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
               </div>
 
               {/* UserButton */}
-              <div className=" flex flex-col justify-center items-center gap-5 w-[250px] px-2 py-2 lg:w-[300px] bg-green-700 lg:px-4 lg:py-4 rounded-xl border-b-4 border-r-4 active:border-b-0 active:border-r-0 border-green-900 hover:bg-gray-800">
+
+              {/* <div className=" flex flex-col justify-center items-center gap-5 w-[250px] px-2 py-2 lg:w-[300px] bg-green-700 lg:px-4 lg:py-4 rounded-xl border-b-4 border-r-4 active:border-b-0 active:border-r-0 border-green-900 hover:bg-gray-800">
                 <div className="text-3xl lg:text-4xl flex">
                   <p className="text-orange-300">{`Your `}</p> Score
                 </div>
                 <div className="text-3xl md:text-3xl lg:text-5xl">
                   {movie.userRating}
+                  <MovieAlertDialog />
                 </div>
-              </div>
+              </div> */}
+              <MovieAlertDialog score={movie.userRating} />
             </div>
           </div>
         </div>
