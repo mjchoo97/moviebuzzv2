@@ -7,16 +7,22 @@ import {
 } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
+import NavigationMenus from "./NavigationMenus";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between py-4 items-center bg-[#191C20] lg:bg-[var(--background)]">
+    <div className="flex justify-between py-2 items-center bg-opacity-0 border-b-2">
       <div>
         <Link href="/">MovieBuzz</Link>{" "}
       </div>
       <div className="flex gap-2">
-        <Link href="/addmovie">Create</Link>
-        <Link href="/browsemovie">Browse</Link>
+        <NavigationMenus />
         <div>
           <ClerkLoading>
             <div

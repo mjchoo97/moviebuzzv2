@@ -18,12 +18,19 @@ import formSchema from "@/lib/MovieFormSchema";
 
 import { addMovie } from "@/lib/action";
 import { useToast } from "@/hooks/use-toast";
-import { revalidatePath } from "next/cache";
+
 import { useRouter } from "next/navigation";
+
+import React, { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 
 export function MovieForm() {
   const { toast } = useToast();
   const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,12 +43,23 @@ export function MovieForm() {
     },
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // Get the first selected file
-    if (file) {
-      form.setValue("poster", file); // Update form value for 'poster'
-    }
-  };
+  // const handleFileChange = (file: File) => {
+  //   // console.log(e);
+
+  //   if (file) {
+  //     form.setValue("poster", file); // Update form value for 'poster'
+  //   }
+  // };
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Do something with the files
+    form.setValue("poster", acceptedFiles[0]);
+    console.log(form.getValues("poster"));
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
 
   const uploadFile = async (file: File) => {
     const data = new FormData();
@@ -67,6 +85,7 @@ export function MovieForm() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     let url;
     if (values.poster) {
       console.log(values.poster);
@@ -83,6 +102,7 @@ export function MovieForm() {
         title: "Success!",
         description: "Movie has been succesfully updated",
       });
+      setLoading(false);
     } else {
       toast({
         variant: "destructive",
@@ -92,100 +112,158 @@ export function MovieForm() {
     }
   }
 
+  if (loading)
+    return (
+      <div className="h-screen flex item-center top-24 gap-5 text-2xl">
+        Updating your movie
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-[500px] px-5 py-5 "
-      >
-        <FormField
-          control={form.control}
-          name="moviename"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Movie Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Name of the movie" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="year"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Year</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Movie released year..."
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="A brief description..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="score"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Score</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Score"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="poster"
-          render={({}) => (
-            <FormItem>
-              <FormLabel>Poster</FormLabel>
-              <FormControl>
-                <Input
+    <div>
+      <div className="text-2xl font-bold text-center text-gray-100 mb-6">
+        <h1>Add A New Movie!</h1>
+      </div>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-[500px] px-5 py-5 border-4 "
+        >
+          <FormField
+            control={form.control}
+            name="moviename"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Movie Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name of the movie" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="year"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Year</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Movie released year..."
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="A brief description..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="score"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Score</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Score"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="poster"
+            render={({}) => (
+              <FormItem>
+                <FormLabel>Poster</FormLabel>
+                <FormControl>
+                  <div
+                    {...getRootProps()}
+                    className="border-2 border-dashed border-sky-700 px-2 h-[100px] gap-5 flex justify-center items-center"
+                  >
+                    <input {...getInputProps()} />
+                    {form.getValues("poster") ? (
+                      <div className="flex  justify-center items-center gap-5">
+                        <Image
+                          src={URL.createObjectURL(
+                            form.getValues("poster") as File
+                          )}
+                          width={40}
+                          height={40}
+                          alt="uploaded image"
+                          className="max-h-[400px] overflow-hidden object-cover"
+                        />
+                        <div>File uploaded</div>
+                      </div>
+                    ) : (
+                      <>
+                        <Image
+                          src="/upload.svg"
+                          width={40}
+                          height={40}
+                          alt="upload"
+                        />
+                        <div className="">
+                          <p className="">
+                            <span className="text-orange-300 text-md">
+                              Click to upload{" "}
+                            </span>
+                            or drag and drop
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  {/* <Input
                   type="file"
                   placeholder="Upload a poster"
                   onChange={handleFileChange} // Manually handle the file selection
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-center items-center">
-          <Button
-            type="submit"
-            variant="submit"
-            className="text-lg h-10 w-40 font-bold"
-          >
-            Submit
-          </Button>
-        </div>
-      </form>
-    </Form>
+                /> */}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex justify-center items-center">
+            <Button
+              type="submit"
+              variant="submit"
+              className="text-lg h-10 w-40 font-bold"
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }

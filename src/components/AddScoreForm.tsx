@@ -16,14 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import formSchema from "@/lib/MovieFormSchema";
 
-import { addMovie, editRating } from "@/lib/action";
+import { addMovie, addRating, editRating } from "@/lib/action";
 import { useToast } from "@/hooks/use-toast";
 import { revalidatePath } from "next/cache";
 import { useParams, useRouter } from "next/navigation";
 import editFormSchema from "@/lib/EditFormSchema";
 import { DialogClose } from "./ui/dialog";
 
-export function EditForm({ score }: { score: number }) {
+export function AddScoreForm() {
   const { toast } = useToast();
   const router = useRouter();
   const params = useParams();
@@ -32,28 +32,27 @@ export function EditForm({ score }: { score: number }) {
   const form = useForm<z.infer<typeof editFormSchema>>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
-      score: score,
+      score: 10,
     },
   });
 
   async function onSubmit(values: z.infer<typeof editFormSchema>) {
-    const res = await editRating({
+    const res = await addRating({
       rating: values.score,
       movieslug: movieslug,
     });
-
     if (res.success) {
       router.refresh();
       toast({
         variant: "success",
         title: "Success!",
-        description: "Score has been succesfully updated",
+        description: "Score has been succesfully input",
       });
     } else {
       toast({
         variant: "destructive",
         title: "Uh Oh!",
-        description: "Error updating score.",
+        description: "Error inputting score.",
       });
     }
   }

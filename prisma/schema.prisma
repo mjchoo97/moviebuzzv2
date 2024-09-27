@@ -28,7 +28,7 @@ model Movie{
 
 model Rating{
     id            String @id @default(auto()) @map("_id") @db.ObjectId
-    movieId       String @db.ObjectId
+    movieId       String 
     movie         Movie  @relation("MovieRatings",fields: [movieId], references: [id])
     rating        Float 
     userId        String
