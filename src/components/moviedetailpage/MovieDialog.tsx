@@ -7,9 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+
 import { EditForm } from "./EditForm";
 
 const MovieDialog = ({ score }: { score: number }) => {
@@ -30,7 +28,7 @@ const MovieDialog = ({ score }: { score: number }) => {
           <DialogHeader>
             <DialogTitle>Edit score</DialogTitle>
             <DialogDescription>
-              Make changes to your score here. Click save when you're done.
+              Make changes to your score here. Click save when you are done.
             </DialogDescription>
           </DialogHeader>
           <EditForm score={score} />

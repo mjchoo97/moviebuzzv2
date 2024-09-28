@@ -128,7 +128,7 @@ export function MovieForm() {
     );
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <div className="text-2xl font-bold text-center text-gray-100 mb-6">
         <h1>Add A New Movie!</h1>
       </div>
@@ -136,7 +136,7 @@ export function MovieForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-[500px] px-5 py-5 border-4 "
+          className="space-y-8 w-full md:w-[500px] lg:w-[500px] px-5 py-5 border-4 "
         >
           <FormField
             control={form.control}
@@ -185,7 +185,7 @@ export function MovieForm() {
             control={form.control}
             name="score"
             render={({ field }) => (
-              <FormItem>
+              <FormItem key={field.name}>
                 <FormLabel>Score</FormLabel>
                 <FormControl>
                   <Input
@@ -208,7 +208,7 @@ export function MovieForm() {
                 <FormControl>
                   <div
                     {...getRootProps()}
-                    className="border-2 border-dashed border-sky-700 px-2 h-[100px] gap-5 flex justify-center items-center"
+                    className="border-2 border-dashed border-sky-700 px-2 h-[100px] gap-2 lg:gap-5 flex justify-center items-center"
                   >
                     <input {...getInputProps()} />
                     {form.getValues("poster") ? (
@@ -221,6 +221,7 @@ export function MovieForm() {
                           height={40}
                           alt="uploaded image"
                           className="max-h-[400px] overflow-hidden object-cover"
+                          key="upload-file"
                         />
                         <div>File uploaded</div>
                       </div>
@@ -231,6 +232,7 @@ export function MovieForm() {
                           width={40}
                           height={40}
                           alt="upload"
+                          key="upload-icon"
                         />
                         <div className="">
                           <p className="">
@@ -243,11 +245,6 @@ export function MovieForm() {
                       </>
                     )}
                   </div>
-                  {/* <Input
-                  type="file"
-                  placeholder="Upload a poster"
-                  onChange={handleFileChange} // Manually handle the file selection
-                /> */}
                 </FormControl>
                 <FormMessage />
               </FormItem>

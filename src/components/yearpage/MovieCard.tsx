@@ -1,17 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
-
-type Movie = {
-  score: number;
-  moviename: string;
-  movieslug: string;
-  year: number;
-  description: string | null;
-  poster: string | null;
-  id: string;
-  createdAt: Date;
-  createdUserId: string;
-};
 
 const MovieCard = ({
   movie,
@@ -29,14 +18,16 @@ const MovieCard = ({
       />
       <div className="flex  justify-center bg-opacity-0  ">
         {movie.poster ? (
-          <div className=" w-[230px] h-[350px] relative overflow-hidden  rounded-md aspect-auto-[460/729] shadow-[2px_10px_23px_3px_#2d3748]">
-            <Image
-              src={movie.poster}
-              alt={movie.moviename}
-              layout="fill" // Use layout instead of fill
-              objectFit="cover"
-              className=" hover:scale-105 transition duration-500"
-            />
+          <div className="cursor-pointer w-[230px] h-[350px] relative overflow-hidden  rounded-md aspect-auto-[460/729] shadow-[2px_10px_23px_3px_#2d3748]">
+            <Link href={`/movie/${movie.movieslug}`}>
+              <Image
+                src={movie.poster}
+                alt={movie.moviename}
+                layout="fill" // Use layout instead of fill
+                objectFit="cover"
+                className=" hover:scale-105 transition duration-500"
+              />
+            </Link>
           </div>
         ) : (
           <div className="bg-slate-700 h-full shadow-md flex flex-col justify-center items-center rounded-xl gap-2 cursor-pointer">
@@ -48,7 +39,7 @@ const MovieCard = ({
         )}
       </div>
       <div className="flex flex-col justify-center items-center w-full ">
-        <div className="max-w-[200px] text-wrap text-xl py-2 font-bold">
+        <div className="max-w-[200px] text-wrap text-xl py-3 font-bold">
           {movie.moviename}
         </div>
         <div className="text-2xl"> {movie.score.toFixed(2)}</div>

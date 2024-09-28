@@ -14,6 +14,7 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import SideBarMenu from "./SideBarMenu";
 
 const Navbar = () => {
   return (
@@ -21,8 +22,13 @@ const Navbar = () => {
       <div>
         <Link href="/">MovieBuzz</Link>{" "}
       </div>
-      <div className="flex gap-2">
-        <NavigationMenus />
+      <div className="flex h-full gap-2 items-center">
+        <div className="lg:hidden md:hidden xl:hidden">
+          <SideBarMenu />
+        </div>
+        <div className="hidden md:flex lg:flex">
+          <NavigationMenus />
+        </div>
         <div>
           <ClerkLoading>
             <div

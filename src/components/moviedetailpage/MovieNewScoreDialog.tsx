@@ -7,10 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { EditForm } from "./EditForm";
+
 import { AddScoreForm } from "./AddScoreForm";
 
 const MovieNewScoreDialog = () => {
@@ -25,11 +22,12 @@ const MovieNewScoreDialog = () => {
             <div className="text-2xl md:text-3xl lg:text-3xl">Score</div>
           </div>
         </DialogTrigger>
+        a
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Input score</DialogTitle>
             <DialogDescription>
-              Input your score here. Click save when you're done.
+              Input your score here. Click save when you are done.
             </DialogDescription>
           </DialogHeader>
           <AddScoreForm />

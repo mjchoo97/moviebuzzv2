@@ -21,7 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { revalidatePath } from "next/cache";
 import { useParams, useRouter } from "next/navigation";
 import editFormSchema from "@/lib/EditFormSchema";
-import { DialogClose } from "./ui/dialog";
+import { DialogClose } from "../ui/dialog";
 
 export function AddScoreForm() {
   const { toast } = useToast();

@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,14 +13,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import formSchema from "@/lib/MovieFormSchema";
-
 import { addMovie, editRating } from "@/lib/action";
 import { useToast } from "@/hooks/use-toast";
-import { revalidatePath } from "next/cache";
 import { useParams, useRouter } from "next/navigation";
 import editFormSchema from "@/lib/EditFormSchema";
-import { DialogClose } from "./ui/dialog";
+import { DialogClose } from "../ui/dialog";
 
 export function EditForm({ score }: { score: number }) {
   const { toast } = useToast();

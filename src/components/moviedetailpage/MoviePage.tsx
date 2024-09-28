@@ -1,5 +1,5 @@
-import MovieDialog from "@/components/MovieDialog";
-import MovieNewScoreDialog from "@/components/MovieNewScoreDialog";
+import MovieDialog from "@/components/moviedetailpage/MovieDialog";
+import MovieNewScoreDialog from "@/components/moviedetailpage/MovieNewScoreDialog";
 
 import { getMovie } from "@/lib/action";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
@@ -7,7 +7,8 @@ import { auth } from "@clerk/nextjs/server";
 
 import Image from "next/image";
 import { Suspense } from "react";
-import MovieSkeleton from "./MovieSkeleton";
+import MovieSkeleton from "../MovieSkeleton";
+import DetailBreadCrumb from "./DetailBreadCrumb";
 
 const MoviePage = async ({ id }: { id: string }) => {
   //   const id = params.id;
@@ -17,18 +18,23 @@ const MoviePage = async ({ id }: { id: string }) => {
 
   return (
     <Suspense fallback={<MovieSkeleton />}>
-      <div>
-        <div className="py-10 bg-slate-40 flex flex-col justify-center items-center md:flex-row lg:flex-row lg:h-[calc(100vh-200px)] lg:gap-20 ">
+      <div className="">
+        <div className="py-2">
+          <DetailBreadCrumb year={movie.year} name={movie.moviename} />
+        </div>
+        <div className=" py-10 bg-slate-40 flex flex-col justify-center items-center md:flex-row lg:flex-row lg:h-[calc(100vh-100px)] lg:gap-20 ">
           <div className=" h-[350px] w-full lg:h-full lg:w-[500px]">
-            <div className="relative w-full h-full ">
+            <div className="relative w-full h-full  flex justify-center items-center">
               {movie.poster ? (
-                <Image
-                  src={movie.poster}
-                  alt="movie"
-                  layout="fill" // Use layout instead of fill
-                  objectFit="contain" // Ensures the image scales while maintaining its aspect ratio
-                  className="rounded-xl"
-                />
+                <div className=" w-[230px] h-[350px] lg:w-[315px] lg:h-[500px] relative overflow-hidden  rounded-md  shadow-[2px_10px_23px_3px_#2d3748] ">
+                  <Image
+                    src={movie.poster}
+                    alt="movie"
+                    layout="fill" // Use layout instead of fill
+                    objectFit="cover" // Ensures the image scales while maintaining its aspect ratio
+                    className="hover:scale-105 transition duration-500"
+                  />
+                </div>
               ) : (
                 <div className="bg-slate-700 h-full shadow-md flex flex-col justify-center items-center rounded-xl gap-2">
                   <Image
@@ -92,7 +98,6 @@ const MoviePage = async ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-        <div className="bg-white w-full">Bottom section</div>
       </div>
     </Suspense>
   );

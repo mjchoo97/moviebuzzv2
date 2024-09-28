@@ -1,24 +1,12 @@
 "use client";
 import { getMovieByYear } from "@/lib/action";
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 import Image from "next/image";
 import MovieCard from "./MovieCard";
 
-type Movies = {
-  score: number;
-  moviename: string;
-  movieslug: string;
-  year: number;
-  description: string | null;
-  poster: string | null;
-  id: string;
-  createdAt: Date;
-  createdUserId: string;
-};
-
-const TopMovie = async ({ year }: { year: number }) => {
-  const [movies, setMovies] = useState<Movies[]>([]);
+const TopMovie = ({ year }: { year: number }) => {
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const medalPaths = ["/medal.png", "/medal-2.png", "/medal-3.png"];
 
@@ -67,39 +55,24 @@ const TopMovie = async ({ year }: { year: number }) => {
     <div className="hidden md:w-full md:h-[450px] md:flex  md:justify-around md:items-center lg:gap-5 lg:w-full lg:h-[500px] lg:flex  lg:justify-center lg:items-center ">
       {movies.length > 2 ? (
         <>
-          {/* 2nd Place */}
-          {movies[1] && (
+          <div className="mt-12">
             <MovieCard movie={movies[1]} medalpath={medalPaths[1]} />
-          )}
-
-          {/* 1st Place */}
-          {movies[0] && (
-            <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
-          )}
-
-          {/* 3rd Place */}
-          {movies[2] && (
+          </div>
+          <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
+          <div className="mt-12">
             <MovieCard movie={movies[2]} medalpath={medalPaths[2]} />
-          )}
+          </div>
         </>
       ) : movies.length > 1 ? (
         <>
           {/* 1st Place */}
-          {movies[0] && (
-            <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
-          )}
 
-          {/* 2nd Place */}
-          {movies[1] && (
-            <MovieCard movie={movies[1]} medalpath={medalPaths[1]} />
-          )}
+          <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
+          <MovieCard movie={movies[1]} medalpath={medalPaths[1]} />
         </>
       ) : (
         <>
-          {/* 1st Place Only */}
-          {movies[0] && (
-            <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
-          )}
+          <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />
         </>
       )}
     </div>

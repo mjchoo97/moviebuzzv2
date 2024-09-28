@@ -4,6 +4,7 @@ import prisma from "./client";
 
 import { slugify } from "./utils";
 import { revalidatePath } from "next/cache";
+import { useAuth } from "@clerk/nextjs";
 
 type Movie = {
   moviename: string;
@@ -260,11 +261,44 @@ export const getMovieByYear = async (year: number) => {
       where: {
         year: year,
       },
+      include: {
+        rating: true, // Include the related ratings for each movie
+      },
     });
 
     return res;
   } catch (err) {
     console.log(err);
     throw err;
+  }
+};
+
+export const getUserMovieRating = async (movieslug: string) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized user!");
+  }
+  try {
+    const movieinfo = await prisma.movie.findFirst({
+      where: {
+        movieslug: movieslug,
+      },
+    });
+
+    if (!movieinfo) {
+      throw new Error("Could not find the movie in database.");
+    }
+
+    const res = await prisma.rating.findFirst({
+      where: {
+        userId: userId,
+        movieId: movieinfo.id,
+      },
+    });
+
+    return res?.rating;
+  } catch (err) {
+    console.log(err);
   }
 };
