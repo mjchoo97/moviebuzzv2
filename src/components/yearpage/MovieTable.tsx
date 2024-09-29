@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getMovieByYear } from "@/lib/action";
+import { auth, getMovieByYear } from "@/lib/action";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 const MovieTable = ({ year }: { year: number }) => {
   //   const allmovies = await getMovieByYear(year);
   const router = useRouter();
+  const [user, setUser] = useState<User>({ userId: null });
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -28,6 +29,9 @@ const MovieTable = ({ year }: { year: number }) => {
         const allmovies = await getMovieByYear(year);
         const sortedMovies = allmovies.sort((a, b) => b.score - a.score);
         setMovies(sortedMovies.slice(0, 3));
+
+        const userauth = await auth();
+        setUser(userauth);
       } catch (error) {
         console.error("Failed to fetch movies", error);
       } finally {
@@ -84,6 +88,7 @@ const MovieTable = ({ year }: { year: number }) => {
               key={movie.moviename}
               movie={movie}
               rank={i}
+              user={user}
               onClick={() => router.push(`/movie/${movie.movieslug}`)}
             />
           ))}

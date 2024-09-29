@@ -1,10 +1,10 @@
 "use server";
-import { auth } from "@clerk/nextjs/server";
+
 import prisma from "./client";
+import { getCurrentUser } from "./session";
 
 import { slugify } from "./utils";
 import { revalidatePath } from "next/cache";
-import { useAuth } from "@clerk/nextjs";
 
 type Movie = {
   moviename: string;
@@ -19,13 +19,25 @@ type Rating = {
   movieslug: string;
 };
 
+export const auth = async () => {
+  const user = await getCurrentUser();
+
+  if (!user || typeof user == "undefined") {
+    return { userId: null };
+  }
+
+  return {
+    userId: user.id,
+  };
+};
+
 export const addMovie = async (movie: Movie) => {
   "use server";
   const { moviename, year, score, description, poster } = movie;
 
-  const { userId } = auth();
   const movieslug = slugify(moviename);
 
+  const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized user!");
   }
@@ -52,7 +64,10 @@ export const addMovie = async (movie: Movie) => {
 };
 
 export const getMovie = async (movieslug: string) => {
-  const { userId } = auth();
+  const { userId } = await auth();
+  // if (!userId) {
+  //   throw new Error("Unauthorized user!");
+  // }
 
   try {
     const moviedetail = await prisma.movie.findFirst({
@@ -99,8 +114,7 @@ export const getMovie = async (movieslug: string) => {
 export const addRating = async (rate: Rating) => {
   const { rating, movieslug } = rate;
 
-  const { userId } = auth();
-
+  const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized user!");
   }
@@ -161,7 +175,7 @@ export const addRating = async (rate: Rating) => {
 };
 
 export const editRating = async (rate: Rating) => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   const { rating, movieslug } = rate;
 
@@ -274,7 +288,7 @@ export const getMovieByYear = async (year: number) => {
 };
 
 export const getUserMovieRating = async (movieslug: string) => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized user!");

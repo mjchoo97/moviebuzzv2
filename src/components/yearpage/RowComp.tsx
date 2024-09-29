@@ -1,27 +1,27 @@
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
-import { useRouter } from "next/navigation";
-import { getUserMovieRating } from "@/lib/action";
+import { auth } from "@/lib/action";
+import { getCurrentUser } from "@/lib/session";
 
-import { useUser } from "@clerk/nextjs";
+async function HeaderActions() {}
 
 const RowComp = ({
   movie,
   rank,
+  user,
   onClick,
 }: {
   movie: Movie;
   rank: number;
+  user: User;
   onClick: () => void;
 }) => {
   const { moviename, movieslug, score, rating, ...movieinfo } = movie;
-
-  //   const userRating = await getUserMovieRating(movieslug);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { userId } = user;
 
   let userScore = undefined;
-  if (user) {
-    userScore = rating?.filter((rating) => rating.userId === user.id);
+  if (userId) {
+    userScore = rating?.filter((rating) => rating.userId === userId);
   }
 
   let finalscore = undefined;

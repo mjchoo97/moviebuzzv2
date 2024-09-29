@@ -1,20 +1,18 @@
 import MovieDialog from "@/components/moviedetailpage/MovieDialog";
 import MovieNewScoreDialog from "@/components/moviedetailpage/MovieNewScoreDialog";
-
-import { getMovie } from "@/lib/action";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-
+import { auth, getMovie } from "@/lib/action";
 import Image from "next/image";
 import { Suspense } from "react";
 import MovieSkeleton from "../MovieSkeleton";
 import DetailBreadCrumb from "./DetailBreadCrumb";
+import Link from "next/link";
+import { getCurrentUser } from "@/lib/session";
 
 const MoviePage = async ({ id }: { id: string }) => {
   //   const id = params.id;
-  const { userId } = auth();
+  const user = await getCurrentUser();
   const movie = await getMovie(id);
-  console.log(movie);
+  // console.log(movie);
 
   return (
     <Suspense fallback={<MovieSkeleton />}>
@@ -76,19 +74,17 @@ const MoviePage = async ({ id }: { id: string }) => {
                     {movie.totalRating?.toFixed(2)}
                   </div>
                 </div>
-                {!userId ? (
-                  <div>
-                    <SignInButton fallbackRedirectUrl={`/movie/${id}`}>
-                      <div className=" flex flex-col justify-center items-center lg:h-[130px] lg:max-h-[130px] gap-2 lg:gap-5 w-[250px] lg:w-[250px]  px-2 py-2 bg-gray-700 lg:px-3 lg:py-3 rounded-xl border-b-4 border-r-4 active:border-b-0 active:border-r-0 border-x-slate-900 hover:bg-gray-800">
-                        <div className="text-2xl lg:text-3xl flex">
-                          <p className="text-orange-300">Login to</p>
-                        </div>
-                        <div className="text-2xl md:text-2xl lg:text-3xl">
-                          Add score
-                        </div>
+                {!user ? (
+                  <Link href={`/login`}>
+                    <div className=" flex flex-col justify-center items-center lg:h-[130px] lg:max-h-[130px] gap-2 lg:gap-5 w-[250px] lg:w-[250px]  px-2 py-2 bg-gray-700 lg:px-3 lg:py-3 rounded-xl border-b-4 border-r-4 active:border-b-0 active:border-r-0 border-x-slate-900 hover:bg-gray-800">
+                      <div className="text-2xl lg:text-3xl flex">
+                        <p className="text-orange-300">Login to</p>
                       </div>
-                    </SignInButton>
-                  </div>
+                      <div className="text-2xl md:text-2xl lg:text-3xl">
+                        Add score
+                      </div>
+                    </div>
+                  </Link>
                 ) : movie.userRating ? (
                   <MovieDialog score={movie.userRating} />
                 ) : (

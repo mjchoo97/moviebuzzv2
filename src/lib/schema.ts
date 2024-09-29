@@ -18,3 +18,7 @@ type Rating = {
   userId: string;
   createdAt: Date;
 };
+
+type User = {
+  userId: string | null;
+};

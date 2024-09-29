@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import SideBarMenu from "./SideBarMenu";
+import { AuthButton } from "./AuthButton";
 
 const Navbar = () => {
   return (
@@ -30,7 +31,8 @@ const Navbar = () => {
           <NavigationMenus />
         </div>
         <div>
-          <ClerkLoading>
+          <AuthButton />
+          {/* <ClerkLoading>
             <div
               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
               role="status"
@@ -51,7 +53,7 @@ const Navbar = () => {
                 <Link href="/sign-in">Login/Register</Link>
               </div>
             </SignedOut>
-          </ClerkLoaded>
+          </ClerkLoaded> */}
         </div>
       </div>
     </div>

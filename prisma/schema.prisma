@@ -32,5 +32,31 @@ model Rating{
     movie         Movie  @relation("MovieRatings",fields: [movieId], references: [id])
     rating        Float 
     userId        String
-    createdAt       DateTime @default(now())
+    user          User @relation("UserRatings",fields: [userId], references: [id])
+    createdAt     DateTime @default(now())
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId 
+  email     String
+  sessions  Session[]
+  account   Account? @relation("GoogleAccount")  
+  rating    Rating[] @relation("UserRatings")
+}
+
+model Session {
+  id        String   @id @default(uuid()) @map("_id") 
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+
+model Account {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  googleId  String
+  userId    String  @unique
+  user      User     @relation("GoogleAccount",fields: [userId], references: [id]) // Ensuring fields & references are in correct order
+  name      String
+  image     String
 }

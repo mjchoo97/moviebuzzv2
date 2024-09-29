@@ -15,8 +15,6 @@ import Link from "next/link";
 const NavigationMenus = async () => {
   const distictYear = await getDistinctMovieByYear();
 
-  console.log(distictYear);
-
   return (
     <div>
       <NavigationMenu>
