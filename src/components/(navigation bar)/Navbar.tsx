@@ -1,10 +1,3 @@
-import {
-  ClerkLoaded,
-  ClerkLoading,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 import NavigationMenus from "./NavigationMenus";
