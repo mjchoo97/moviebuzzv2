@@ -10,6 +10,7 @@ import { getCurrentUser } from "@/lib/session";
 import OtherRaters from "./OtherRaters";
 import DeleteMovieDialog from "./DeleteMovieDialog";
 import { getAccountByUserId } from "@/data-access/accounts";
+import ShareButton from "./ShareButton";
 
 const MoviePage = async ({ id }: { id: string }) => {
   //   const id = params.id;
@@ -63,12 +64,13 @@ const MoviePage = async ({ id }: { id: string }) => {
                   {movie.moviename}
                 </h1>
               </div>
-              <div className="flex justify-center lg:justify-start space-x-2 py-2 ">
+              <div className="flex justify-center items-center lg:justify-start space-x-3 py-2 ">
                 <p className="text-lg lg:text-xl italic">{`${movie.year}`}</p>
+                <ShareButton />
                 {isAdmin && <DeleteMovieDialog />}
               </div>
 
-              <div className="w-full py-10 text-1xl lg:py-5 lg:text-md lg:min-h-[200px] lg:max-h-[250px] ">
+              <div className="w-full py-10 text-1xl lg:py-5 lg:text-md lg:min-h-[150px] lg:max-h-[200px] ">
                 <p className="line-clamp-5 w-full h-full">
                   {movie.description
                     ? movie.description
@@ -110,7 +112,7 @@ const MoviePage = async ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-        <div className="h-full  pb-48">
+        <div className="h-full pt-10 pb-48">
           <OtherRaters movieslug={movie.movieslug} />
         </div>
       </div>

@@ -24,7 +24,8 @@ const buttonVariants = cva(
           "bg-slate-900 text-xl hover:bg-yellow-300 border-2 border-slate-100 active:border-b-0",
         login: " text-md shadow-sm hover:bg-secondary/80",
         homepage: " text-2xl shadow-sm hover:bg-secondary/80",
-        googleAuth: "text-xl shadow-sm bg-green-700 hover:bg-secondary/80 ",
+        googleAuth:
+          "text-lg shadow-sm bg-slate-900 border-2 hover:bg-secondary/80 ",
       },
       size: {
         default: "h-9 px-4 py-2",

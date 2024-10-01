@@ -27,7 +27,7 @@ const MovieCard = ({
                 className=" hover:scale-105 transition duration-500"
               />
             </Link>
-            <div className="text-shadow-sm shadow-emerald-600  rounded-full size-12 absolute bottom-2 right-2 text-xl bg-zinc-950 flex items-center justify-center border-2 border-emerald-500">
+            <div className="text-shadow-sm shadow-emerald-400  rounded-full size-12 absolute bottom-2 right-2 text-xl bg-zinc-950 flex items-center justify-center border-2 border-emerald-500">
               {movie.score.toFixed(1)}
             </div>
           </div>
