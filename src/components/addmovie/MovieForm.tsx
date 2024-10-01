@@ -1,5 +1,5 @@
 "use client";
-
+import AddMovieBreadCrumb from "@/components/addmovie/AddMovieBreadCrumb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 export function MovieForm() {
   const { toast } = useToast();
@@ -36,25 +36,17 @@ export function MovieForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       moviename: "",
-      year: 0,
+      year: new Date().getFullYear(),
       description: "",
-      score: 0,
+      // score: 0,
       poster: undefined,
     },
   });
 
-  // const handleFileChange = (file: File) => {
-  //   // console.log(e);
-
-  //   if (file) {
-  //     form.setValue("poster", file); // Update form value for 'poster'
-  //   }
-  // };
-
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Do something with the files
     form.setValue("poster", acceptedFiles[0]);
-    console.log(form.getValues("poster"));
+    // console.log(form.getValues("poster"));
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -77,7 +69,7 @@ export function MovieForm() {
       const responseData = await res.json();
 
       const { url } = responseData;
-      console.log(`Link:${url}`);
+
       return url;
     } catch (err) {
       console.log(err);
@@ -94,7 +86,6 @@ export function MovieForm() {
 
     const res = await addMovie({ ...values, poster: url });
 
-    console.log("rerouted");
     if (res.success) {
       router.push(`/movie/${res?.movieslug}`);
       toast({
@@ -102,7 +93,7 @@ export function MovieForm() {
         title: "Success!",
         description: "Movie has been succesfully updated",
       });
-      setLoading(false);
+      // setLoading(false);
     } else {
       toast({
         variant: "destructive",
@@ -112,20 +103,20 @@ export function MovieForm() {
     }
   }
 
-  if (loading)
-    return (
-      <div className="h-screen flex item-center top-24 gap-5 text-2xl">
-        Updating your movie
-        <div
-          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-          role="status"
-        >
-          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
-        </div>
-      </div>
-    );
+  // if (loading)
+  //   return (
+  //     <div className="h-screen flex item-center top-24 gap-5 text-2xl">
+  //       Creating your movie
+  //       <div
+  //         className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+  //         role="status"
+  //       >
+  // <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+  //   Loading...
+  // </span>
+  //       </div>
+  //     </div>
+  //   );
 
   return (
     <div className="flex flex-col items-center">
@@ -175,7 +166,7 @@ export function MovieForm() {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="A brief description..." {...field} />
+                  <Input placeholder="A brief description ..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -223,7 +214,7 @@ export function MovieForm() {
                           className="max-h-[400px] overflow-hidden object-cover"
                           key="upload-file"
                         />
-                        <div>File uploaded</div>
+                        <div>{form.getValues("poster")?.name}</div>
                       </div>
                     ) : (
                       <>
@@ -250,13 +241,33 @@ export function MovieForm() {
               </FormItem>
             )}
           />
+
           <div className="flex justify-center items-center">
             <Button
               type="submit"
-              variant="submit"
-              className="text-lg h-10 w-40 font-bold"
+              variant={loading ? "processing" : "submit"}
+              className={`text-lg h-10 w-40 font-bold `}
+              disabled={loading}
             >
-              Submit
+              {loading && (
+                <svg
+                  aria-hidden="true"
+                  className="size-6 text-gray-200 animate-spin dark:text-gray-600 fill-slate-200"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+              )}
+              <span className="pl-2">{loading ? "Submitting" : "Submit"}</span>
             </Button>
           </div>
         </form>

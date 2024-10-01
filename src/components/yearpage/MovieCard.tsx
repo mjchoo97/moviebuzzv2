@@ -23,11 +23,13 @@ const MovieCard = ({
               <Image
                 src={movie.poster}
                 alt={movie.moviename}
-                layout="fill" // Use layout instead of fill
-                objectFit="cover"
+                fill // Use layout instead of fill
                 className=" hover:scale-105 transition duration-500"
               />
             </Link>
+            <div className="text-shadow-sm shadow-emerald-600  rounded-full size-12 absolute bottom-2 right-2 text-xl bg-zinc-950 flex items-center justify-center border-2 border-emerald-500">
+              {movie.score.toFixed(1)}
+            </div>
           </div>
         ) : (
           <div className="bg-slate-700 h-full shadow-md flex flex-col justify-center items-center rounded-xl gap-2 cursor-pointer">
@@ -39,10 +41,9 @@ const MovieCard = ({
         )}
       </div>
       <div className="flex flex-col justify-center items-center w-full ">
-        <div className="max-w-[200px] text-wrap text-xl py-3 font-bold">
+        <div className="max-w-[220px] text-wrap text-xl py-3 font-bold  ">
           {movie.moviename}
         </div>
-        <div className="text-2xl"> {movie.score.toFixed(2)}</div>
       </div>
     </div>
   );

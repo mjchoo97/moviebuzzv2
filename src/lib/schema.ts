@@ -7,6 +7,7 @@ type Movie = {
   poster: string | null;
   id: string;
   createdAt: Date;
+  updatedAt: Date;
   createdUserId: string;
   rating?: Rating[];
 };
@@ -21,4 +22,9 @@ type Rating = {
 
 type User = {
   userId: string | null;
+};
+
+type BrowseMovie = {
+  year: number;
+  movie: Movie;
 };

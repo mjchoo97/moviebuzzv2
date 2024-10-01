@@ -62,18 +62,14 @@ async function HeaderActions() {
     <>
       {isSignedIn ? (
         <>
-          {/* <div className="hidden md:block">test</div> */}
           <ProfileDropdown userId={user.id} />
-          {/* <div className="md:hidden">
-            <MenuButton />
-          </div> */}
         </>
       ) : (
         <>
           <Button asChild variant="login">
             <Link href="/login" className="gap-2">
-              <img src="/user.svg" />
-              Sign In
+              <img src="/user.svg" alt="usericon" />
+              <p className="hidden md:flex lg:flex">Sign In</p>
             </Link>
           </Button>
         </>

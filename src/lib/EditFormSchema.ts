@@ -7,7 +7,7 @@ const maxWords = (limit: number) =>
   });
 
 const editFormSchema = z.object({
-  score: z.number().min(0).max(10).multipleOf(0.01), // Allows up to 2 decimal places
+  score: z.number().min(0).max(10).multipleOf(0.1), // Allows up to 2 decimal places
 });
 
 export default editFormSchema;

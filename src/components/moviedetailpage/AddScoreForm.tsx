@@ -23,7 +23,13 @@ import { useParams, useRouter } from "next/navigation";
 import editFormSchema from "@/lib/EditFormSchema";
 import { DialogClose } from "../ui/dialog";
 
-export function AddScoreForm() {
+export function AddScoreForm({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}) {
   const { toast } = useToast();
   const router = useRouter();
   const params = useParams();
@@ -42,6 +48,7 @@ export function AddScoreForm() {
       movieslug: movieslug,
     });
     if (res.success) {
+      setOpen(false);
       router.refresh();
       toast({
         variant: "success",
@@ -83,15 +90,13 @@ export function AddScoreForm() {
         />
 
         <div className="flex justify-center items-center">
-          <DialogClose>
-            <Button
-              type="submit"
-              variant="submit"
-              className="text-lg h-10 w-40 font-bold"
-            >
-              Submit
-            </Button>
-          </DialogClose>
+          <Button
+            type="submit"
+            variant="submit"
+            className="text-lg h-10 w-40 font-bold"
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </Form>

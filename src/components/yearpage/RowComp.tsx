@@ -28,7 +28,7 @@ const RowComp = ({
   if (!userScore || typeof userScore === "undefined") {
     finalscore = "-";
   } else {
-    finalscore = userScore[0].rating;
+    finalscore = Number(userScore[0].rating).toFixed(1);
   }
 
   return (
@@ -36,7 +36,7 @@ const RowComp = ({
       <TableCell className="font-semibold text-center">{rank + 1}</TableCell>
       <TableCell>{moviename}</TableCell>
       <TableCell className="text-center text-amber-300">
-        {score.toFixed(2)}
+        {score.toFixed(1)}
       </TableCell>
       <TableCell className="text-center">{finalscore}</TableCell>
     </TableRow>

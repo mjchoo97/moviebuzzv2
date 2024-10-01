@@ -18,6 +18,7 @@ model Movie{
   moviename       String
   movieslug       String   @unique
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
   description     String?
   year            Int
   score           Float
@@ -29,16 +30,18 @@ model Movie{
 model Rating{
     id            String @id @default(auto()) @map("_id") @db.ObjectId
     movieId       String 
-    movie         Movie  @relation("MovieRatings",fields: [movieId], references: [id])
+    movie         Movie  @relation("MovieRatings",fields: [movieId], references: [id],onDelete: Cascade)
     rating        Float 
     userId        String
-    user          User @relation("UserRatings",fields: [userId], references: [id])
+    user          User @relation("UserRatings",fields: [userId], references: [id],onDelete: Cascade)
     createdAt     DateTime @default(now())
+    updatedAt     DateTime @default(now())
 }
 
 model User {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId 
   email     String
+  role      String    @default("user")
   sessions  Session[]
   account   Account? @relation("GoogleAccount")  
   rating    Rating[] @relation("UserRatings")
@@ -56,7 +59,8 @@ model Account {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   googleId  String
   userId    String  @unique
-  user      User     @relation("GoogleAccount",fields: [userId], references: [id]) // Ensuring fields & references are in correct order
+  user      User     @relation("GoogleAccount",fields: [userId], references: [id], onDelete: Cascade) // Ensuring fields & references are in correct order
   name      String
   image     String
+  type      String
 }

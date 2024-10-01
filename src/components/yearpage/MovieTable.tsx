@@ -17,7 +17,6 @@ import RowComp from "./RowComp";
 import { useRouter } from "next/navigation";
 
 const MovieTable = ({ year }: { year: number }) => {
-  //   const allmovies = await getMovieByYear(year);
   const router = useRouter();
   const [user, setUser] = useState<User>({ userId: null });
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -41,8 +40,6 @@ const MovieTable = ({ year }: { year: number }) => {
 
     fetchMovies();
   }, [year]);
-
-  console.log(movies);
 
   if (loading)
     return (

@@ -13,7 +13,7 @@ const YearDetail = () => {
   const yearNum = Number(params.year);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full min-h-screen pb-10">
       <div className="flex justify-center items-center text-2xl py-4 drop-shadow-md">
         {yearNum}
       </div>

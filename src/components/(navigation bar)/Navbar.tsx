@@ -1,23 +1,20 @@
 import Link from "next/link";
 import React from "react";
 import NavigationMenus from "./NavigationMenus";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import SideBarMenu from "./SideBarMenu";
 import { AuthButton } from "./AuthButton";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between py-2 items-center bg-opacity-0 border-b-2">
-      <div>
-        <Link href="/">MovieBuzz</Link>{" "}
+    <div className="bg-gray-900 flex justify-between py-1 items-center border-b-2 h-[50px] w-full px-4 md:px-8 lg:px-16 xl:px-32 ">
+      <div className="h-full flex items-center">
+        <Link href="/">
+          <Image src="/websitelogo.png" alt="logo" width={180} height={100} />
+        </Link>
       </div>
       <div className="flex h-full gap-2 items-center">
-        <div className="lg:hidden md:hidden xl:hidden">
+        <div className="lg:hidden md:hidden xl:hidden mt-2">
           <SideBarMenu />
         </div>
         <div className="hidden md:flex lg:flex">
@@ -25,28 +22,6 @@ const Navbar = () => {
         </div>
         <div>
           <AuthButton />
-          {/* <ClerkLoading>
-            <div
-              className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-              role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
-          </ClerkLoading>
-          <ClerkLoaded>
-            <SignedIn>
-              <div className="flex items-center gap-3">
-                <UserButton />
-              </div>
-            </SignedIn>
-            <SignedOut>
-              <div className="cursor-pointer">
-                <Link href="/sign-in">Login/Register</Link>
-              </div>
-            </SignedOut>
-          </ClerkLoaded> */}
         </div>
       </div>
     </div>

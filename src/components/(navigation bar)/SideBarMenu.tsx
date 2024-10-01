@@ -10,15 +10,19 @@ import {
 } from "@/components/ui/sheet";
 import { NavigationMenuLink } from "../ui/navigation-menu";
 import Link from "next/link";
-import { getDistinctMovieByYear } from "@/lib/action";
+import { getTopDistinctMovieByYear } from "@/lib/action";
 
 const SideBarMenu = async () => {
-  const distictYear = await getDistinctMovieByYear();
+  const distictYear = await getTopDistinctMovieByYear();
   return (
     <div>
       <Sheet>
         <SheetTrigger className="">
-          <img src="/hamburger-menu.svg" className="h-7 w-7" />
+          <img
+            src="/hamburger-menu.svg"
+            className="h-7 w-7"
+            alt="hamburgericon"
+          />
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
@@ -35,6 +39,12 @@ const SideBarMenu = async () => {
                   Browse Movie
                 </div>
                 <div className="border-b-2 py-1 ml-10 px-2 text-left">
+                  <Link href={`/browsemovie`}>
+                    <SheetClose className="w-full  py-1 hover:bg-sky-900 text-left pl-2">
+                      All Years
+                    </SheetClose>
+                  </Link>
+
                   {distictYear.map((year) => (
                     <Link href={`/movieyear/${year}`} key={year}>
                       <SheetClose className="w-full  py-1 hover:bg-sky-900 text-left px-2">

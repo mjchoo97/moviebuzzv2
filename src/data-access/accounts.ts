@@ -21,6 +21,7 @@ export async function createAccountViaGoogle(
       googleId,
       name,
       image,
+      type: "google",
     },
   });
 }
@@ -37,6 +38,9 @@ export async function getAccountByUserId(userId: string) {
   return await prisma.account.findFirst({
     where: {
       userId,
+    },
+    include: {
+      user: true,
     },
   });
 }
