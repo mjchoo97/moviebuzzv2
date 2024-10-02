@@ -13,7 +13,7 @@ const formSchema = z.object({
     .min(1900, "Year must be a valid year")
     .max(new Date().getFullYear(), "Year cannot be in the future"),
   description: maxWords(50).optional(), // Custom validation for max 50 words
-  score: z.number().min(0).max(10).multipleOf(0.1).optional(), // Allows up to 1 decimal places
+  score: z.number().min(0).max(10).multipleOf(0.1), // Allows up to 1 decimal places
   poster: z
     .instanceof(File) // Validate it's a file
     .optional() // Make the field optional

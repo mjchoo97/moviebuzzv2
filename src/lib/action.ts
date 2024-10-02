@@ -42,7 +42,6 @@ export const auth = async () => {
 };
 
 export const addMovie = async (movie: Movie) => {
-  "use server";
   const { moviename, year, score, description, poster } = movie;
 
   const movieslug = slugify(moviename);

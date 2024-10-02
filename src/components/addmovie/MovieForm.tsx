@@ -63,7 +63,7 @@ export function MovieForm() {
         {
           method: "POST",
           body: data,
-        }
+        },
       );
 
       const responseData = await res.json();
@@ -120,15 +120,14 @@ export function MovieForm() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="text-2xl font-bold text-center text-gray-100 mb-6">
+      <div className="mb-6 text-center text-2xl font-bold text-gray-100">
         <h1>Add A New Movie!</h1>
       </div>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full md:w-[500px] lg:w-[500px] px-5 py-5 border-4 "
-        >
+          className="w-full space-y-8 border-4 px-5 py-5 md:w-[500px] lg:w-[500px]">
           <FormField
             control={form.control}
             name="moviename"
@@ -199,14 +198,13 @@ export function MovieForm() {
                 <FormControl>
                   <div
                     {...getRootProps()}
-                    className="border-2 border-dashed border-sky-700 px-2 h-[100px] gap-2 lg:gap-5 flex justify-center items-center"
-                  >
+                    className="flex h-[100px] items-center justify-center gap-2 border-2 border-dashed border-sky-700 px-2 lg:gap-5">
                     <input {...getInputProps()} />
                     {form.getValues("poster") ? (
-                      <div className="flex  justify-center items-center gap-5">
+                      <div className="flex items-center justify-center gap-5">
                         <Image
                           src={URL.createObjectURL(
-                            form.getValues("poster") as File
+                            form.getValues("poster") as File,
                           )}
                           width={40}
                           height={40}
@@ -227,7 +225,7 @@ export function MovieForm() {
                         />
                         <div className="">
                           <p className="">
-                            <span className="text-orange-300 text-md">
+                            <span className="text-md text-orange-300">
                               Click to upload{" "}
                             </span>
                             or drag and drop
@@ -242,21 +240,19 @@ export function MovieForm() {
             )}
           />
 
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             <Button
               type="submit"
               variant={loading ? "processing" : "submit"}
-              className={`text-lg h-10 w-40 font-bold `}
-              disabled={loading}
-            >
+              className={`h-10 w-40 text-lg font-bold`}
+              disabled={loading}>
               {loading && (
                 <svg
                   aria-hidden="true"
-                  className="size-6 text-gray-200 animate-spin dark:text-gray-600 fill-slate-200"
+                  className="size-6 animate-spin fill-slate-200 text-gray-200 dark:text-gray-600"
                   viewBox="0 0 100 101"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                     fill="currentColor"
