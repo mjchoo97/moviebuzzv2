@@ -30,18 +30,18 @@ const TopMovie = ({ year }: { year: number }) => {
   if (loading)
     return (
       <div>
-        <div className="flex space-y-3 justify-center items-center gap-10">
-          <div className="space-y-5 items-center justify-center mt-1">
+        <div className="flex items-center justify-center gap-10 space-y-3">
+          <div className="mt-1 items-center justify-center space-y-5">
             <Skeleton className="h-[300px] w-[250px] rounded-xl" />
             <Skeleton className="h-6 w-[250px]" />
             <Skeleton className="h-4 w-[200px]" />
           </div>
-          <div className="space-y-5 items-center justify-center mt-1">
+          <div className="mt-1 items-center justify-center space-y-5">
             <Skeleton className="h-[300px] w-[250px] rounded-xl" />
             <Skeleton className="h-6 w-[250px]" />
             <Skeleton className="h-4 w-[200px]" />
           </div>
-          <div className="space-y-5 items-center justify-center mt-1">
+          <div className="mt-1 items-center justify-center space-y-5">
             <Skeleton className="h-[300px] w-[250px] rounded-xl" />
             <Skeleton className="h-6 w-[250px]" />
             <Skeleton className="h-4 w-[200px]" />
@@ -52,9 +52,9 @@ const TopMovie = ({ year }: { year: number }) => {
   if (!movies.length) return <div>No top movies found for the year {year}</div>;
 
   return (
-    <div className="hidden md:w-full md:h-[450px] md:flex  md:justify-around md:items-center lg:gap-5 lg:w-full lg:h-[500px] lg:flex  lg:justify-center lg:items-center ">
+    <div className="hidden md:flex md:h-[450px] md:w-full md:items-center md:justify-around lg:flex lg:h-[500px] lg:w-full lg:items-center lg:justify-center lg:gap-5">
       {movies.length > 2 ? (
-        <div className="flex gap-5 py-4 h-full">
+        <div className="flex h-full gap-5 py-4">
           <div className="mt-12">
             <MovieCard movie={movies[1]} medalpath={medalPaths[1]} />
           </div>
@@ -64,7 +64,7 @@ const TopMovie = ({ year }: { year: number }) => {
           </div>
         </div>
       ) : movies.length > 1 ? (
-        <div className="flex gap-5 py-4 h-full">
+        <div className="flex h-full gap-5 py-4">
           {/* 1st Place */}
 
           <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />

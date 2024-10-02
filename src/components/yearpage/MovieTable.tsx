@@ -27,7 +27,7 @@ const MovieTable = ({ year }: { year: number }) => {
       try {
         const allmovies = await getMovieByYear(year);
         const sortedMovies = allmovies.sort((a, b) => b.score - a.score);
-        setMovies(sortedMovies.slice(0, 3));
+        setMovies(sortedMovies);
 
         const userauth = await auth();
         setUser(userauth);
@@ -43,10 +43,10 @@ const MovieTable = ({ year }: { year: number }) => {
 
   if (loading)
     return (
-      <div className="lg:mt-10 h-screen lg:w-2/3">
+      <div className="h-screen lg:mt-10 lg:w-2/3">
         <div className="flex justify-start lg:ml-10">
-          <div className="flex flex-col  gap-5  mt-1">
-            <Skeleton className="h-16 w-[250px] lg:w-[800px] rounded-xl" />
+          <div className="mt-1 flex flex-col gap-5">
+            <Skeleton className="h-16 w-[250px] rounded-xl lg:w-[800px]" />
             <Skeleton className="h-6 w-[200px] lg:w-[400px]" />
             <Skeleton className="h-4 lg:w-[200px]" />
           </div>
@@ -56,10 +56,10 @@ const MovieTable = ({ year }: { year: number }) => {
 
   if (!movies.length)
     return (
-      <div className="lg:mt-10 h-screen lg:w-2/3">
+      <div className="h-screen lg:mt-10 lg:w-2/3">
         <div className="flex justify-start lg:ml-10">
-          <div className="flex flex-col  gap-5  mt-1">
-            <Skeleton className="h-16 w-[250px] lg:w-[800px] rounded-xl" />
+          <div className="mt-1 flex flex-col gap-5">
+            <Skeleton className="h-16 w-[250px] rounded-xl lg:w-[800px]" />
             <Skeleton className="h-6 w-[200px] lg:w-[400px]" />
             <Skeleton className="h-4 lg:w-[200px]" />
           </div>
@@ -68,15 +68,15 @@ const MovieTable = ({ year }: { year: number }) => {
     );
 
   return (
-    <div className="w-full md:w-3/4 lg:w-3/4 flex justify-start lg:justify-center items-center mt-6">
+    <div className="mt-6 flex w-full items-center justify-start md:w-3/4 lg:w-3/4 lg:justify-center">
       <Table className="w-full">
         {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
         <TableHeader>
           <TableRow className="text-lg">
             <TableHead className="w-[100px] text-center">Rank</TableHead>
             <TableHead className="w-2/3">Name</TableHead>
-            <TableHead className="text-center ">Buzz Score</TableHead>
-            <TableHead className="text-center ">Your Score</TableHead>
+            <TableHead className="text-center">Buzz Score</TableHead>
+            <TableHead className="text-center">Your Score</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

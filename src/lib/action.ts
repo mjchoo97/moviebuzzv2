@@ -21,6 +21,14 @@ type Rating = {
   movieslug: string;
 };
 
+interface MovieUpdateData {
+  moviename?: string; // Optional properties
+  movieslug?: string;
+  year?: number;
+  description?: string;
+  poster?: string;
+}
+
 export const auth = async () => {
   const user = await getCurrentUser();
 
@@ -65,11 +73,63 @@ export const addMovie = async (movie: Movie) => {
   }
 };
 
+export const editMovieDetail = async (
+  moviename: string,
+  year: number,
+  description: string | undefined,
+  poster: string | undefined,
+  movieId: string,
+) => {
+  const { userId } = await auth();
+
+  try {
+    if (!userId) {
+      throw new Error("Unauthorized user!");
+    }
+
+    const movieslug = slugify(moviename);
+
+    // Create an empty object with the defined type
+    const updateData: MovieUpdateData = {};
+
+    // Only add fields that have valid, non-empty values
+    if (moviename) {
+      updateData.moviename = moviename;
+    }
+
+    if (movieslug) {
+      updateData.movieslug = movieslug;
+    }
+
+    if (year) {
+      updateData.year = year;
+    }
+
+    if (description) {
+      updateData.description = description;
+    }
+
+    if (poster) {
+      updateData.poster = poster;
+    }
+
+    await prisma.movie.update({
+      where: {
+        id: movieId,
+      },
+      data: updateData,
+    });
+
+    revalidatePath("/movie/movieslug");
+    return { success: true, error: false, movieslug: movieslug };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};
+
 export const getMovie = async (movieslug: string) => {
   const { userId } = await auth();
-  // if (!userId) {
-  //   throw new Error("Unauthorized user!");
-  // }
 
   try {
     const moviedetail = await prisma.movie.findFirst({
@@ -101,6 +161,7 @@ export const getMovie = async (movieslug: string) => {
       totalRating: moviedetail.score,
       userRating: userRating?.rating,
       createdUserId: moviedetail.createdUserId,
+      movieId: moviedetail.id,
     };
   } catch (err) {
     console.log(err);
@@ -112,6 +173,7 @@ export const getMovie = async (movieslug: string) => {
       totalRating: 0,
       userRating: 0,
       movieslug: "",
+      movieId: "",
     };
   }
 };

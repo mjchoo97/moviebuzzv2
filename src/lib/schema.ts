@@ -10,6 +10,7 @@ type Movie = {
   updatedAt: Date;
   createdUserId: string;
   rating?: Rating[];
+  movieId?: string;
 };
 
 type Rating = {
