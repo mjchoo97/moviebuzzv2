@@ -23,7 +23,7 @@ const YearDetail = () => {
       <div className="hidden md:w-full md:h-[450px] md:flex  md:justify-around md:items-center lg:w-full lg:h-[450px] lg:flex  lg:justify-around lg:items-center    ">
         <TopMovie year={yearNum} />
       </div>
-      <div className="mt-5 flex justify-center">
+      <div className="mt-5 flex justify-center h-full">
         <MovieTable year={yearNum} />
       </div>
     </div>

@@ -54,7 +54,7 @@ const TopMovie = ({ year }: { year: number }) => {
   return (
     <div className="hidden md:w-full md:h-[450px] md:flex  md:justify-around md:items-center lg:gap-5 lg:w-full lg:h-[500px] lg:flex  lg:justify-center lg:items-center ">
       {movies.length > 2 ? (
-        <div className="flex gap-5 py-4">
+        <div className="flex gap-5 py-4 h-full">
           <div className="mt-12">
             <MovieCard movie={movies[1]} medalpath={medalPaths[1]} />
           </div>
@@ -64,7 +64,7 @@ const TopMovie = ({ year }: { year: number }) => {
           </div>
         </div>
       ) : movies.length > 1 ? (
-        <div className="flex gap-5 py-4">
+        <div className="flex gap-5 py-4 h-full">
           {/* 1st Place */}
 
           <MovieCard movie={movies[0]} medalpath={medalPaths[0]} />

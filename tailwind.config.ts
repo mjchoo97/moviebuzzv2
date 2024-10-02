@@ -62,9 +62,6 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      animation: {
-        "bounce-slow": "bounce 1s ease-in-out 20s infinite",
-      },
     },
   },
 

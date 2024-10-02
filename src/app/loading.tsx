@@ -23,7 +23,7 @@ const LoadingPage: React.FC = () => {
       </div>
 
       <p className="text-gray-500">
-        Please wait a moment while we shoot the content.
+        Please wait a moment while we film the content.
       </p>
     </div>
   );
