@@ -10,11 +10,11 @@ const BrowseMoviepage = async () => {
   }
 
   return (
-    <div className="min-h-screen flex   flex-col gap-5">
-      <div className="text-3xl py-5 text-neutral-400 text-shadow shadow-slate-950">
+    <div className="flex min-h-screen flex-col gap-5">
+      <div className="py-5 text-3xl text-neutral-400 shadow-slate-950 text-shadow">
         Browse all our movies
       </div>
-      <div className="justify-items-center grid grid-cols-1 md:grid-cols-3 gap-5 ">
+      <div className="grid grid-cols-1 justify-items-center gap-8 pb-5 md:grid-cols-3">
         {distictYears.map((distinctYear) => (
           <FocusMovie movie={distinctYear.movie} key={distinctYear.year} />
         ))}

@@ -26,9 +26,15 @@ const SearchResult = async ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const resetMovieProps = () => {
+    setSearchMovies([]);
+    setTotalMovie(0);
+  };
+
   useEffect(() => {
-    setLoading(true);
+    resetMovieProps();
     const fetchMovies = async () => {
+      setSearchMovies([]);
       try {
         const results = await searchMovieAction(movie, page);
         if (results?.movies && results.movies.length > 0) {
@@ -47,7 +53,7 @@ const SearchResult = async ({
     fetchMovies();
   }, [movie]);
 
-  if (!totalMovie) {
+  if (!totalMovie && !loading) {
     return (
       <div className="flex h-full min-h-screen flex-col items-center justify-center gap-2">
         <div className="text-2xl">
@@ -92,59 +98,63 @@ const SearchResult = async ({
 
   return (
     <div className="flex flex-col justify-center gap-4">
-      <h1 className="text-2xl">{`Searched result for: ${movie} (${totalMovie})`}</h1>
-      <div className="grid grid-cols-1 place-items-center gap-2 lg:grid-cols-4">
+      <h1 className="text-xl">{`Searched result for: ${movie} (${totalMovie})`}</h1>
+      <div className="grid h-full grid-cols-1 place-items-center gap-2 md:grid-cols-3 lg:grid-cols-4">
         {searchMovies.map((movie) => (
-          <MovieCard movie={movie} key="movie" />
+          <div className="h-full">
+            <MovieCard movie={movie} key="movie" />
+          </div>
         ))}
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
+      {totalMovie && totalMovie > 8 && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              {page !== 1 && (
+                <PaginationPrevious
+                  href={`/searchmovie?movie=${movie}&page=${Number(page) - 1}`}
+                />
+              )}
+            </PaginationItem>
+            {page > 2 && <PaginationEllipsis />}
             {page !== 1 && (
-              <PaginationPrevious
-                href={`/searchmovie?movie=${movie}&page=${Number(page) - 1}`}
-              />
+              <PaginationItem>
+                <PaginationLink
+                  href={`/searchmovie?movie=${movie}&page=${Number(page) - 1}`}>
+                  {Number(page) - 1}
+                </PaginationLink>
+              </PaginationItem>
             )}
-          </PaginationItem>
-          {page > 2 && <PaginationEllipsis />}
-          {page !== 1 && (
+
             <PaginationItem>
               <PaginationLink
-                href={`/searchmovie?movie=${movie}&page=${Number(page) - 1}`}>
-                {Number(page) - 1}
+                href={`/searchmovie?movie=${movie}&page=${Number(page)}`}
+                className="bg-yellow-600">
+                {page}
               </PaginationLink>
             </PaginationItem>
-          )}
-
-          <PaginationItem>
-            <PaginationLink
-              href={`/searchmovie?movie=${movie}&page=${Number(page)}`}
-              className="bg-yellow-600">
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-          {page < totalPages && (
-            <PaginationItem>
-              <PaginationLink
-                href={`/searchmovie?movie=${movie}&page=${Number(page) + 1}`}>
-                {Number(page) + 1}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-
-          <PaginationItem>
-            {page + 1 < totalPages && <PaginationEllipsis />}
-          </PaginationItem>
-          <PaginationItem>
             {page < totalPages && (
-              <PaginationNext
-                href={`/searchmovie?movie=${movie}&page=${Number(page) + 1}`}
-              />
+              <PaginationItem>
+                <PaginationLink
+                  href={`/searchmovie?movie=${movie}&page=${Number(page) + 1}`}>
+                  {Number(page) + 1}
+                </PaginationLink>
+              </PaginationItem>
             )}
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+
+            <PaginationItem>
+              {page + 1 < totalPages && <PaginationEllipsis />}
+            </PaginationItem>
+            <PaginationItem>
+              {page < totalPages && (
+                <PaginationNext
+                  href={`/searchmovie?movie=${movie}&page=${Number(page) + 1}`}
+                />
+              )}
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };
