@@ -101,8 +101,8 @@ const SearchResult = async ({
       <h1 className="text-xl">{`Searched result for: ${movie} (${totalMovie})`}</h1>
       <div className="grid h-full grid-cols-1 place-items-center gap-2 md:grid-cols-3 lg:grid-cols-4">
         {searchMovies.map((movie) => (
-          <div className="h-full">
-            <MovieCard movie={movie} key="movie" />
+          <div className="h-full" key={movie.moviename}>
+            <MovieCard movie={movie} />
           </div>
         ))}
       </div>
