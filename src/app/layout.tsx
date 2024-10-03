@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "../components/(navigation bar)/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/footer/Footer";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,13 +31,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark bg-gradient-to-b from-gray-900 to-stone-900`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} dark bg-gradient-to-b from-gray-900 to-stone-900 antialiased`}>
         <Navbar />
-        <div className="w-full px-4 md:px-8 lg:px-16 xl:px-32">
-          {children}
-          <Toaster />
-        </div>
+        <Suspense fallback={"loading"}>
+          <div className="w-full px-4 md:px-8 lg:px-16 xl:px-32">
+            {children}
+            <Toaster />
+          </div>
+        </Suspense>
         <Footer />
       </body>
     </html>

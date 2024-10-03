@@ -177,6 +177,37 @@ export const getMovie = async (movieslug: string) => {
   }
 };
 
+export const searchMovieAction = async (moviename: string, page: number) => {
+  const limit = 8;
+  const movieslug = slugify(moviename);
+
+  try {
+    const allMovies = await prisma.movie.findMany();
+
+    // Filter movies in memory based on regex pattern
+    const regex = new RegExp(movieslug, "i"); // 'i' for case-insensitive
+    const filteredMovies = allMovies.filter((movie) =>
+      regex.test(movie.movieslug),
+    );
+
+    // Calculate pagination
+    const totalMovies = filteredMovies.length; // Get total filtered movies count
+    const totalPages = Math.ceil(totalMovies / limit); // Calculate total pages
+    const offset = (page - 1) * limit; // Calculate offset for pagination
+
+    // Slice the filtered movies array to get the current page's movies
+    const paginatedMovies = filteredMovies.slice(offset, offset + limit);
+    return {
+      movies: paginatedMovies,
+      totalPages,
+      currentPage: page,
+      totalMovies,
+    };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const addRating = async (rate: Rating) => {
   const { rating, movieslug } = rate;
 
