@@ -20,20 +20,21 @@ const RowComp = ({
   const { userId } = user;
 
   let userScore = undefined;
+
   if (userId) {
     userScore = rating?.filter((rating) => rating.userId === userId);
   }
 
-  let finalscore = undefined;
-  if (!userScore || typeof userScore === "undefined") {
+  let finalscore = "-";
+  if (!userScore || userScore.length == 0) {
     finalscore = "-";
   } else {
     finalscore = Number(userScore[0].rating).toFixed(1);
   }
 
   return (
-    <TableRow className="w-full text-xl cursor-pointer" onClick={onClick}>
-      <TableCell className="font-semibold text-center">{rank + 1}</TableCell>
+    <TableRow className="w-full cursor-pointer text-xl" onClick={onClick}>
+      <TableCell className="text-center font-semibold">{rank + 1}</TableCell>
       <TableCell>{moviename}</TableCell>
       <TableCell className="text-center text-amber-300">
         {score.toFixed(1)}

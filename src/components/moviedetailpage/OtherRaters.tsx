@@ -6,11 +6,11 @@ const ReviewCard = (
   name: string | undefined,
   image: string | undefined,
   score: number,
-  updatedTime: Date
+  updatedTime: Date,
 ) => {
   return (
-    <div className="flex justify-between items-center max-w-[300px] overflow-hidden  transition-transform transform hover:scale-105 w-[300px] h-[100px] py-5 px-5 border-2 border-slate-400 rounded-lg bg-gradient-to-r from-gray-600 to-gray-700">
-      <div className="flex flex-col justify-start h-full gap-3">
+    <div className="flex h-[100px] w-[300px] max-w-[300px] transform items-center justify-between overflow-hidden rounded-lg border-2 border-slate-400 bg-gradient-to-r from-gray-600 to-gray-700 px-5 py-5 transition-transform hover:scale-105">
+      <div className="flex h-full flex-col justify-start gap-3">
         <div className="flex items-center gap-5">
           <div>
             <Avatar>
@@ -22,13 +22,13 @@ const ReviewCard = (
         </div>
 
         <div>
-          <div className="italic text-sm">
+          <div className="text-sm italic">
             {`Updated: ${formatElapsedTime(new Date(updatedTime))}`}
           </div>
         </div>
       </div>
 
-      <div className="font-bold border-2 border-slate-400 rounded-full w-16 h-16 flex justify-center items-center text-lg hover:shadow-[0px_-4px_26px_10px_#2d3748] bg-gradient-to-b from-orange-700 to-rose-800">
+      <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-slate-400 bg-gradient-to-b from-orange-700 to-rose-800 text-lg font-bold hover:shadow-[0px_-4px_26px_10px_#2d3748]">
         {score.toFixed(1)}
       </div>
     </div>
@@ -78,22 +78,19 @@ const OtherRaters = async ({ movieslug }: { movieslug: string }) => {
   }
 
   return (
-    <div className="flex flex-col gap-5 justify-center w-full items-center ">
-      <div className="text-2xl md:text-3xl lg:text-3xl font-bold text-wrap flex flex-col md:flex-row lg:flex-row">
+    <div className="flex w-full flex-col items-center justify-center gap-5">
+      <div className="flex flex-col text-wrap text-2xl font-bold md:flex-row md:text-3xl lg:flex-row lg:text-3xl">
         <p>Hear the Buzz:&nbsp;</p>
         <p>Insights from the Hive!</p>
       </div>
-      <div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-3">
         {otherUsers.map((otheruser, i) => (
-          <div
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6"
-            key={i}
-          >
+          <div key={i}>
             {ReviewCard(
               otheruser.user.account?.name,
               otheruser.user.account?.image,
               otheruser.rating,
-              otheruser.updatedAt
+              otheruser.updatedAt,
             )}
           </div>
         ))}

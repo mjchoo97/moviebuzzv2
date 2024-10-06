@@ -8,7 +8,7 @@ import React, { Suspense } from "react";
 
 function Yearpage() {
   const params = useParams();
-  console.log(params);
+
   const year = Number(params.year);
 
   return (

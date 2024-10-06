@@ -27,27 +27,27 @@ const SideBarMenu = async () => {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>MovieBuzz</SheetTitle>
-            <SheetDescription className="text-md ">
+            <SheetDescription className="text-md">
               <div className="flex flex-col gap-2">
                 <Link href="/addmovie" className="w-full">
-                  <SheetClose className="w-full border-b-2 py-1 hover:bg-sky-900 text-left px-2">
+                  <SheetClose className="w-full border-b-2 px-2 py-1 text-left hover:bg-sky-900">
                     Create
                   </SheetClose>
                 </Link>
 
-                <div className="border-b-2 py-1 text-left px-2">
+                <div className="border-b-2 px-2 py-1 text-left">
                   Browse Movie
                 </div>
-                <div className="border-b-2 py-1 ml-10 px-2 text-left">
+                <div className="ml-10 border-b-2 px-2 py-1 text-left">
                   <Link href={`/browsemovie`}>
-                    <SheetClose className="w-full  py-1 hover:bg-sky-900 text-left pl-2">
+                    <SheetClose className="w-full py-1 pl-2 text-left hover:bg-sky-900">
                       All Years
                     </SheetClose>
                   </Link>
 
                   {distictYear.map((year) => (
                     <Link href={`/movieyear/${year}`} key={year}>
-                      <SheetClose className="w-full  py-1 hover:bg-sky-900 text-left px-2">
+                      <SheetClose className="w-full px-2 py-1 text-left hover:bg-sky-900">
                         {year}
                       </SheetClose>
                     </Link>

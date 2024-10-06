@@ -23,12 +23,14 @@ const MovieCard = ({
         {movie.poster ? (
           <div className="aspect-auto-[460/729] relative h-[350px] w-[230px] cursor-pointer overflow-hidden rounded-md shadow-[2px_10px_23px_3px_#2d3748]">
             <Link href={`/movie/${movie.movieslug}`}>
-              <Image
-                src={movie.poster}
-                alt={movie.moviename}
-                fill // Use layout instead of fill
-                className="transition duration-500 hover:scale-105"
-              />
+              <div className="relative h-full w-full">
+                <Image
+                  src={movie.poster}
+                  alt={movie.moviename}
+                  fill // Use layout instead of fill
+                  className="transition duration-500 hover:scale-105"
+                />
+              </div>
             </Link>
             <div className="absolute bottom-2 right-2 flex size-12 items-center justify-center rounded-full border-2 border-emerald-500 bg-zinc-950 text-xl shadow-emerald-400 text-shadow-sm">
               {movie.score.toFixed(1)}

@@ -14,7 +14,7 @@ const detailFormSchema = z.object({
     .min(1900, "Year must be a valid year")
     .max(new Date().getFullYear(), "Year cannot be in the future"),
 
-  description: maxWords(50).optional(), // Custom validation for max 50 words
+  description: maxWords(100).optional(), // Custom validation for max 100 words
 
   poster: z
     .instanceof(File) // Validate it's a file
