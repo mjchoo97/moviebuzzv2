@@ -21,6 +21,7 @@ export const validateRequest = async (): Promise<SessionValidationResult> => {
   // next.js throws when you attempt to set cookie when rendering page
   try {
     if (result.session) {
+      console.log(result.session.expiresAt);
       setSessionTokenCookie(sessionId, result.session.expiresAt);
     }
     if (!result.session) {

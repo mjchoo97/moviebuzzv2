@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 // ...
 
 export function setSessionTokenCookie(token: string, expiresAt: Date): void {
+  console.log(token);
+  console.log(expiresAt);
   cookies().set("session", token, {
     httpOnly: true,
     sameSite: "lax",

@@ -51,7 +51,8 @@ export async function validateSessionToken(
     await prisma.session.delete({ where: { id: sessionId } });
     return { session: null, user: null };
   }
-  if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 2) {
+  if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 5) {
+    console.log("expirint soon");
     session.expiresAt = new Date(Date.now() + 1000 * 60 * 10);
     await prisma.session.update({
       where: {
