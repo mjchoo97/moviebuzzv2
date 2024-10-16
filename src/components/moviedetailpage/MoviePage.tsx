@@ -11,7 +11,7 @@ import OtherRaters from "./OtherRaters";
 import DeleteMovieDialog from "./DeleteMovieDialog";
 import { getAccountByUserId } from "@/data-access/accounts";
 import ShareButton from "./ShareButton";
-import { User } from "lucia";
+
 import EditMovieDetailsDialog from "./EditMovieDetailsDialog";
 
 const MoviePage = async ({ id }: { id: string }) => {
@@ -54,7 +54,7 @@ const MoviePage = async ({ id }: { id: string }) => {
             <ScoreSection
               totalRating={movie.totalRating}
               userRating={movie.userRating}
-              currentUser={user}
+              currentUser={user?.id}
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ function ScoreSection({
 }: {
   totalRating: number;
   userRating: number | undefined;
-  currentUser: User | undefined;
+  currentUser: string | undefined;
 }) {
   return (
     <section>

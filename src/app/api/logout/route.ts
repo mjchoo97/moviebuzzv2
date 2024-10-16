@@ -1,6 +1,8 @@
 import { deleteSessionForUser } from "@/data-access/sessions";
-import { lucia, validateRequest } from "@/lib/auth";
-import { cookies } from "next/headers";
+import { validateRequest } from "@/lib/auth";
+import { invalidateSession } from "@/lib/auth-session";
+import { deleteSessionTokenCookie } from "@/lib/cookies";
+
 import { redirect } from "next/navigation";
 
 export async function GET(): Promise<Response> {
@@ -11,14 +13,11 @@ export async function GET(): Promise<Response> {
     redirect("/sign-in");
   }
 
-  await lucia.invalidateSession(session.id);
+  await invalidateSession(session.id);
+
   await deleteSessionForUser(session.userId);
-  // await lucia.auth.invalidateAllUserSessions(session.userId);
-  const sessionCookie = lucia.createBlankSessionCookie();
-  cookies().set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes
-  );
+
+  deleteSessionTokenCookie();
+
   redirect("/logout");
 }
